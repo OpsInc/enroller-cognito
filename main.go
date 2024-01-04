@@ -4,16 +4,14 @@ import (
 	"log"
 	"os"
 
-	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider"
 	"github.com/joho/godotenv"
 )
 
 type Config struct {
-	Cognito     *cognitoidentityprovider.Client
+	AWSRegion   string
 	Username    string
 	Password    string
 	AppClientID string
-	SecretHash  string
 }
 
 type GithubConf struct {
@@ -29,24 +27,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	conf := &Config{
-		Cognito:     AWSConnection(),
+	cognitoConf := &Config{
+		AWSRegion:   "ca-central-1",
 		Username:    os.Getenv("COGNITO_USER"),
 		Password:    os.Getenv("COGNITO_PASSWORD"),
 		AppClientID: os.Getenv("COGNITO_CLIENT_ID"),
 	}
 
-	tokenID := conf.Signin()
+	tokenID := cognitoConf.UserSignin(cognitoConf.AWSConnection())
 
-	githubConf := &GithubConf{
-		Repo:         "enroller-cognito",
-		Organization: "Opsinc",
-		CognitoToken: tokenID,
-		GithubToken:  os.Getenv("GITHUB_TOKEN"),
-	}
-
-	updateStatus := githubConf.UpdateSecrets()
-	if updateStatus != int(200) && updateStatus != int(204) {
-		log.Fatal("Issue with the UpdateSecrets call, HTTP code received is: ", updateStatus)
-	}
+	// Print to Stdout in order to be fetched by the user or pipeline
+	os.Stdout.Write([]byte(tokenID))
 }
