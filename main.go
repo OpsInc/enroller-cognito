@@ -22,9 +22,13 @@ type GithubConf struct {
 }
 
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal(err)
+	log.Println("v0.0.2")
+
+	if os.Getenv("GO_ENV") == "local" {
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	cognitoConf := &Config{
