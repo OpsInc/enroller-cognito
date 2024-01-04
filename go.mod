@@ -1,4 +1,4 @@
-module enroller-cognito
+module github.com/OpsInc/enroller-cognito
 
 go 1.22rc1
 
