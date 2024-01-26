@@ -4,12 +4,14 @@ help:				## Show this help.
 build:			  	## Builds code into a binary
 	@go build -o main && zip main.zip main
 
+build-lambda:			  	## Builds code into a binary
+	@go build -o bootstrap && zip bootstrap.zip bootstrap
+
 run:				## Runs code localy
 	@go run .
 
 dev:				## Dev Mode: will restart app on each code changes
 	@reflex -r '.go' -s -- go run .
-
 
 tidy:				## Install && cleans project dependencies in go.mod
 	@go mod tidy

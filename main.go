@@ -25,7 +25,7 @@ func main() {
 	if os.Getenv("GO_ENV") == "local" {
 		err := godotenv.Load(".env")
 		if err != nil {
-			log.Println(err)
+			log.Fatalf("Unable to load .env file with error: %v", err)
 		}
 	}
 
