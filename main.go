@@ -14,13 +14,6 @@ type Config struct {
 	AppClientID string
 }
 
-type GithubConf struct {
-	Repo         string
-	Organization string
-	CognitoToken string
-	GithubToken  string
-}
-
 func main() {
 	if os.Getenv("GO_ENV") == "local" {
 		err := godotenv.Load(".env")
